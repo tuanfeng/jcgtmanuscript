@@ -1,0 +1,66 @@
+\section{Related Work \tofix{not ready}}
+\label{sec:related}
+
+
+%\hl{Technologies around 3D printing have been popular since recent years. The capability of generating tangible solid objects with fine surface details and complex interior structures from their digital representation inspires significant efforts in relative areas. In practice, 3D printers are a powerful and affordable commercial solution to popularize the self-prototyping of custom-designed sphtsical objects and complex inner structure design, which opened new horizons in 3D shape design technologies for fabrication.} \zhouwang{move this part to introduction?}
+
+
+
+We focus on three aspects of research that are related to our work, i.e., Fabrication-aware 3D shape design, Lightweight structure design and optimization, and Structural topology optimization.
+
+\paragraph{Fabrication-aware 3D shape design}
+Significant efforts have been made recently on establishing physically-fabricated prototypes and manufactured objects using 3D printing.
+Bickel et al.~\shortcite{Bickel:2010} established a data-driven pipeline for designing and fabricating materials with desired deformation behavior.
+%Li et al.~\shortcite{Li:2013} proposed a Kinect-based method for 3D printing of \hl{self-portraits miniatures} from watertight surfaces.
+Prevost et al.~\shortcite{prevost:2013} introduced an interactive framework to make a 3D printed object stand in the give orientation by hollowing and shape deformation.
+%
+The capability of fabricating complex interior structures brings a new perspective to 3D shape design with special purposes.
+Stava et al.~\shortcite{stava:2012} improved the structural strength of objects by modifying their interior structures or adding external supporting struts. 
+%They conducted an iterative optimization where supporting struts, thickening and hollowing operations are applied to sustain the stress and the grip forces. 
+Recently, the idea has been introduced that a reduction in material usage can make 3D printing more cost-effective~\cite{wang:2013}.
+%The idea of cost-effective 3D printing~\cite{wang:2013} is to reduce the material usage while maintaining several physical and geometrical constraints.
+%has been recently introduced. In their work, the solid interior of an object is replaced by truss scaffoldings. The structure is iteratively optimized to reduce the total volume with accounting for several physical and geometrical constraints. 
+Similar to our work, they utilize the frame structure as a template. 
+Their goal is to maintain strength under certain given loads with minimal material cost, while ours is to achieve an optimized structure with minimal deformation under all possible force distribution.
+%
+%The mechanical analysis of printed 3D objects has also been addressed. 
+Zhou et al.~\shortcite{zhou:2013} presented a method to calculate the ``worst'' load distribution that hints the weak regions on objects designed for 3D printing.
+%The formulation is from modal analysis in spirit and can be only verified by numerical experiment instead of mathematical derivation. 
+%As suffering from the solid representation, they cannot formulate an optimization problem based on their structural analysis algorithm.
+Instead of only detecting the worst-case, in our work we aim at minimizing the maximal deformation of target structure by varying the design variables.
+%In this paper, instead of focusing on local weak region, we aimed at optimize the global stiffness with new proposed solid structure representation and mathematically proved formulation. 
+Umetani and Schmidt~\shortcite{umetani:2013} designed an interface that automatically suggests to the user how to modify the current design so that it meets specific fabrication requirements, such as stability and durability.
+
+
+
+\paragraph{Lightweight structure design and optimization}
+The design and optimization of lightweight structures has been extensively explored in tissue engineering and computer-aided design. 
+%
+Smith et al.~\shortcite{Smith:2002} focus on optimizing the design of truss structures where beams connected by pin joints are rotation-free and difficult to preserve the geometrical shape of the object.
+%Different from our frame structure, truss structure is a set of rotation-free beams connected by pin joints and only exert axial forces. In their paper, a non-linear optimization method is presented for optimizing the geometry and the mass of structure with parameters including the location of the joints as well as the strength of individual beams. Since there is no formulation to characterize the deformations of beams in their framework, it cannot guarantee the surface geometrical approximation which is important for most 3D printed objects. On the other hand, truss structure is also difficult for fabrication as building rotation-free joint is hard for 3D printing technical at this time.
+%
+Using lightweight structures for improving the strength and the stiffness of objects has also been studied in the field of rapid manufacturing~\cite{wang:2005}, where the particle swarm optimization or generic algorithm were selected to search for design solutions. Detailed reviews on various aspects of structural optimization can be found in the recent literature~\cite{bendsoe:2003}. Due to the differences in the types of objectives and constraints, the approaches there in are not suitable for our purpose of 3D printing.
+
+
+
+\paragraph{Structural topology optimization}
+%
+Structural topology optimization is employed mainly to specify the optimum number and location of holes in the configuration of the designed structure.
+%
+Element-based methods for structural topology optimization decompose the volume of the input object into finite-element-like tetrahedrons, or a grid-like structure for analysis. The \emph{Optimality Criteria} (OC)~\cite{rozvany:1989} methods are proved to be among the most effective element-based methods for solving topology optimization problems. 
+A recent review of this area is offered by~\cite{rozvany:2009}.
+%
+Topology optimization using the level set methods~\cite{belytschko:2003,wang2003level,Allaire:2004} was proposed recently. 
+%
+In their work, the material densities are determined at the discretized nodes or points. 
+The \emph{Isogeometric Analysis} (IGA) method is a logical extension and generalization of the classical FEM.  
+Hassani et al.~\shortcite{hassani:2012} combined the IGA method with
+\emph{Solid Isotropic Material with Penalization} (SIMP), where the material density is considered as a continuous function throughout the design domain, 
+for structural topology optimization. 
+%
+However, due to the large number of design variables, applications of these methods are extremely time-consuming and unaffordable for 3D objects.
+
+
+
+
+

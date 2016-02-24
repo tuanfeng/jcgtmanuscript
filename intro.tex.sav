@@ -1,0 +1,84 @@
+\section{Introduction}
+\label{sec:intro}
+
+
+%% 1. 三维打印所带来的变化是，复杂的物体内部结构设计不但可行，有时也是必要的。
+brought three dimensional printing is a complex internal structure of objects not only feasible, sometimes also necessary.
+
+
+%传统制造方法比较偏重于表面加工，对于有复杂内部结构物体则很难一次快速成型。
+%在有些情况下，为物体设计满足特殊性能的内部结构是非常必要的。
+%随着三维打印技术的出现，正在改变着这种态势。
+
+The objects with complex interior structures are difficult to fabricate by traditional manufacture methods which pay more emphasis on surface processing.
+In some cases, designing the interior structure of an object to meet special performance is necessary.
+The capability of generating solid objects with fine surface details and complex interior structures from their digital representation 
+inspires significant efforts in relative areas.
+%
+Technologies around 3D printing have been popular since recent years, which make . 
+In practice, 3D printers are a powerful and affordable commercial solution to popularize the self-prototyping of custom-designed physical objects and complex inner structure design, which opened new horizons in 3D shape design technologies for fabrication.
+
+
+Technologies around 3D printing have been popular since recent years. 
+
+Currently, 3D printers provide a commercial solution to popularize the self-prototyping of custom-designed physical objects and complex inner structure design, which opened new horizons in 3D shape design technologies for fabrication.
+
+
+
+
+
+The techniques of Fast Fabrication, also known as 3D printing, have been more and more developed and matured in recent year \cite{relative papers}. No matter what specified technique is used, the basic idea of 3D printing is stacking cross-section layers of an object one by one result in when comparing with traditional processing methods like CNC, etc., 3D printing is able to build complex interior structure with highly flexible. It makes the problem of interior structure design for achieveing some custumized properities receive a lot of attention unprecedentedly.
+
+
+
+
+Changes brought three dimensional printing is a complex internal structure of objects not only feasible, sometimes also necessary.
+
+%% 2. 以往的绝大多数相关工作，都是在指定受力下的结构分析及优化。而现实情况是，所制造物体可能会受到各种不可能预见力的作用。
+
+The vast majority of previous relevant work force are designated under structural analysis and optimization. The reality is that the manufactured object may be impossible to foresee all kinds of force.
+
+
+%% 3. 如何优化结构设计使之能应对各种可能的受力环境，这是很具挑战性的问题：
+%%   针对上述问题的建模是全新的课题；结构的设计变量规模可控并能有效计算是关键点和难点。
+
+
+How to optimize the design so that it can cope with all possible force environment, this is a very challenging question:
+In response to these problems is modeling a new topic; design variables controllable scale structure and to effectively calculate the key points and difficulties.
+
+
+%% 4. 引入frame结构的motivation：是对问题的简化近似刻画的力学模型，使之可有效计算。
+
+Introduction of frame structures motivation: a mechanical model of approximation to simplify the problem portrayed, making effective computing.
+
+%% 5. 概括本文的贡献。
+
+Summarize the contribution of this paper.
+
+
+
+
+In the filed of fabrication engineering, an extensive attention has been paid to shape analysis and structural optimization [Crapo 1979; Crapo 1990; Rosenberg 1980; Haftka and Grandhi 1986].
+Many kinds of lightweight structures, including frame and honeycomb, have been developed to reduce weight and enforce strength~\cite{Kindinger:2001,wang:2013,buildtolast} during recent years.
+
+
+However, the vast majority of previous work focused on structural optimization and design under a given load environment like some specified forces.
+In real situation, an object might be handled or used in various possible ways, and specified forces cannot be exhaustive of all cases.
+As lacking of valid formulation for the above mentioned problem, traditional methods of structural optimization are unable to solve it efficiently.
+In this paper, the frame structure is proposed for not only being able to efficiently optimize but also formulating the adaptive hollowing and interior struts into a unified form.
+
+
+As the raw material input to 3D printer remain expensive but reusable, the production cost of the resulting model is directly related to the volume of target object without much impact on the printing process (wasted material is reusable). Take this factor into consideration, the designing of cost effective 3D shapes by reducing their interior material (i.e. achieving some custumized properities with minimul material cost) has been studied recently like \cite{wang:2013,buildtolast}, which is called cost-effective structure optimization.
+
+However, previous work on cost-effective structure optimization are focusing on the situation under some given loads including gravity and share the formulation as the given external loads act on the surface on the object to simulate handling, pressing etc., and the gravity act on everywhere of the solid. When operating optimization with certain loads, a solid with interior structure is generated which accounts strength under this situation. This formulation is very limited for many cases becasue for most of the time, people can not predict a exact load distribution when it is used after the fabraction like an american football which cannot be decided where it will be kicked during the game or a mobile phone which cannot be told the exact holding position or a bridge which cannot be predict where the heavy car will go. Even for some easy case with only limited possible load distribution, no existing method can synthetize structures generated under each given load distribution. Or if we add all the possible load distributions up together for a single optimization, there is no guarantee of working for the distributions might contradict, e.g. a place on the surface could be pulled in one situation and pushed in another.
+
+In this paper, we propused a novel formulation for optimize the structure under a given material bound that the designed structure will be damaged least is a bounded load under any possible most-damaged load distribution which can be also described as optimizing the worst case to the best. The designed solid is considered as an adaptive hollowing surafce with cylinder-like interior supportive structure. In order to get this problem solvable, we simulate the structure via frame. The adaptive-hollowed surface is simplified as a mesh-like surface frame with different radius on each struts and the interior structure is connected struts in the surface frame. We utilize the dual triangulation of centroidal Voronoi diagram with uniform density function to generate an initial guess of the frame. The optimization problem adjust the frame parameter (node position and radius of struts) , essentially, to minimize the largest compliance under any load distribution. We prove that the optimization problem can be equivalent to the optimizing of critical value of Rayleigh quotient which is linear and explicit. After casting the optimization problem as mutually finding an optimal distribution of the radius of frame's edges and the position of each nodes under a total volume constrain, the result frame will lead the generation of output solid in the end. \tuanfeng{more details?}
+
+Further more, with a simple outer loop, our method is also availiable for the goal of minimze the material cost under the constriant of minimal load-bearing performace. We will show that the largest compliance can be calcuated with the worst load distribution, a binary chop can then be added as a outer loop to find the minimal cost for a upper bound of compliance.
+
+Our method makes the folloing contributions:
+\begin{itemize}
+\item We propused the first method on organize the adaptive hollowing and interior structure in an uniform form and optimze them together.
+\item We first work on the problem of cost-effective structure optimization under unknown load distribution and formulate the optimization problem on getting the best strength under worst situation.
+\item The optimization problem is time consuming under a naive solving method, we use the concept of Rayleigh quotient to transfer the inplicite eigenvalue problem into explicite optimization formulation.
+\end{itemize}

@@ -1,0 +1,45 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+In this work, we propose a novel approach for global stiffness struture optimization and present a saddle point algorithm to solve the optimization problem efficiently.
+%
+When given a certain amount of material for printing an object in 3D, our approach can generate a global stiffness structure with minimum deformation under all possible force distributions.
+%
+Our approach also provides a solution for formulating adaptive hollowing and interior supportive structures in a unifed form, while optimizing them simultaneously.
+%
+A number of experimental results have shown the validity and the rationality of our solution,
+and have proved our proposed approach to be much more applicable than previous methods.
+%
+
+
+\noindent\textbf{Limitations and future work}
+Our research opens several future studies in the direction of structural optimization.
+
+In this paper, the optimization's objective is to minimize the possible deformation of objects.
+However, the maximum stress distribution inside an object is of more interest in some applications, since it tells us where a crack is likely to happen. For such a need, we should introduce new objective functions. A simple idea is to consider the following optimization problem.
+$$
+\min_{(V,r)}\max_{f} \frac{\int_{\Omega} |\sigma|^2 dx}{\int_\Omega f^2dx}
+$$
+where $\sigma$ denotes the stress of the body under a force $f$.
+
+
+%\xuefeng{My revision ends here.}
+
+
+%From beam theory we know that lightweight frame structures under small load can be considered as linear elastic structure.
+%Nonlinear elasticity has to be investigated for cases of frame under large deformation.
+%In nonlinear elasticity, the displacements of nodes are not linearly related to the loads, so the linear stiffness equation is no longer valid.
+%%
+%
+%%There are two dual problems in the structural optimization:
+%%maximizing the strength of designed structure with given material volume constraint;
+%%and minimizing the volume of material usage to meet a given strength/deformation constraint on the structure.
+%
+%
+%In our current work, we consider the structural optimization problem of maximizing the global stiffness of designed structure with a given amount of material constraint.
+%%
+%Here the maximum global stiffness structure is defined as that provides minimal deformation under various force distribution.
+%If we consider the maximum strength structure that produces minimal stress under various force distribution, the structural optimization problem appears to be solvable but would be challenging.
+%%
+%Second, .... some topic is an intriguing direction for future research.
+

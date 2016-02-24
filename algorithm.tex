@@ -1,0 +1,188 @@
+\section{Methodology}
+\label{sec:algorithm}
+
+%When an object mesh is given, instead of optimize the inside solid distribution, we simulate the whole structure via frame and optimize the frame parameter respectively. In this section, we will give a detailed description on how to generate an initial frame structure from a given mesh, optimization techniques and a solid-generation process to encode the frame parameter back to a 3D PLC mesh for fabrication.
+
+We propose a novel approach based on the formulation Eq.~\eqref{eq:min-max-deformation} to find a global stiffness structure
+which provides the best load-bearing performance under any possible load distributions.
+%
+An overview of our algorithm is shown in Figure~\ref{fig:pipeline}.
+%
+Given a closed 3D input surface $S$ represented by a triangular mesh, we first compute an isotropic initial frame with its beams of lower bound radii. We use the \emph{Constrained Centroidal Voronoi Tessellation}~(CCVT)~\cite{Yan:2010} for this step (see Figure~\ref{fig:pipeline}(b) for an example).
+%
+Starting from this initial frame, we then iteratively optimize the beam radii and node position by solving a saddle point problem (see Figure~\ref{fig:pipeline}(c)), to achieve a frame with maximum global stiffness under the volume constraint.
+%
+Finally, we apply a post-processing step to the optimized frame structure to generate an entity object that inherits the global stiffness property as the final result (see Figure~\ref{fig:pipeline}(d)).
+
+
+\subsection{Frame initialization}
+\label{subsec:initialization}
+
+
+We choose an isotropic tetrahedralization approach~\cite{Yan:2010} to guide the frame initialization, with a uniform density function, for our purpose.
+We first randomly generate a set of sites in the interior domain of surface $S$.
+The number of sites is specified by the user, it is related to the complexity of frame structure. Then we minimize the CCVT energy function by iteratively optimizing the positions of the sites.
+Once the optimization is terminated, the dual triangulation is extracted as the initial frame.
+This initial frame will be determined by having each tetrahedral edge as a frame beam with the radius $\underline{\eta}$ (defined in Eq.~\eqref{eq:radius-bounds}). Although an adaptive initialization is considered to benefit the start point of optimization, it is actually ill-posed as our target is to strengthen the weakest. If the initialization is adaptive to the initial weakest situation, it will no longer benefit the final result as the weakest situaiton is changing during the optimization (see Fig.~\ref{fig_frame_max}). On the other hand, an isotropic initialization is good enough as our geometry optimization is shown to contributed a lot to the final result (see Fig.~\ref{fig:pipeline:d}).
+
+
+
+%\paragraph{Adaptive initialization dilemma}
+%It is obvious that the load-bearing performance is related to the geometry of the surface $S$.
+%A good structure design should then rely on the geometry information.
+%However, adaptive initialization is not a good option since it might become inappropriate after some iterations of optimization.
+%The reason is that the stage result of optimization might change the easy-damaged place and might lead to the adaptive initialization turning into restraint of further optimization.
+%As a consequence, we perform a uniform density function when computing the CCVT on the given mesh $S$.
+
+
+\noindent\textbf{Remarks}
+For thin details on the surface, damage can easily happen even without any hollowing.
+So as a part of the initialization, we first simplify all the thin parts and add these geometric details back only after the solid object is finally generated.
+This is automatically realized thanks to the natural limitation of CCVT, which eliminates thin parts by optimizing the energy function with a uniform density function.
+
+
+
+\subsection{Saddle point algorithm}
+%\subsection{Saddle point algorithm}
+\label{subsec:opt-algorithm}
+
+
+%\tofix{This section describe the algorithm for solving the optimization problem. and topology clean is also mentioned}
+
+
+
+In global stiffness structural optimization~\eqref{eq:min-max-deformation}, derivatives of the objective function, e.g., gradients, with respect to $V_I$ and $\mathbf{r}$ cannot be explicitly expressed and efficiently calculated.
+%
+It would be extremely unfavorable to employ most iterative strategies that make use of the first and probably second derivatives of the objective function.
+%While the computational cost of direct search method without using gradient information would be too expensive and very time-consuming.
+However, without using gradient information, the computational cost of using direct search methods would be too expensive and too time-consuming.
+%
+Through rigorous mathematical derivation, we will present an algorithm based on the Rayleigh-quotient to greatly accelerate the solving of the problem.
+
+
+
+
+
+We first define the Rayleigh-quotient~\cite{Parlett:1998} of the stiffness matrix $K(V,\mathbf{r})$ as
+\begin{equation} \label{eq:rayleigh-quotient}
+Q(V, \mathbf{r}, \mathbf{u})=\dfrac{<K( V  ,\mathbf{r})\mathbf{u},\mathbf{u}>}{<\mathbf{u},\mathbf{u}>}.
+\end{equation}
+According to the extremal property of Rayleigh quotient, the global stiffness structural optimization~\eqref{eq:min-max-deformation} is equivalent to the following saddle point problem
+\begin{equation}\label{eq:max-min-Rayleigh}
+\begin{array}{ccl}
+\max\limits_{(V_I,\mathbf{r})\in\Theta} & \min\limits_{\mathbf{u}\in N(K)^{\perp}} & Q(V, \mathbf{r}, \mathbf{u})
+\end{array}
+\end{equation}
+where $N(K)^{\perp}=\{\mathbf{u} \mid \mathbf{z}_i^T \mathbf{u}=0, i=1,\cdots,6\}$ is the orthogonal complement of
+$Null(K)=\mathrm{span}\{\mathbf{z}_1,\cdots,\mathbf{z}_6\}$.
+In the saddle point problem~\eqref{eq:max-min-Rayleigh}, the gradients $\{\nabla_{V} Q, \nabla_{\mathbf{r}} Q, \nabla_{\mathbf{u}} Q\}$
+have explicit expressions and can be computed efficiently.
+Thus, we can design a Rayleigh-quotient based algorithm for optimizing the frame structure as follows.
+
+
+
+\begin{algorithm}[!htb]
+\textbf{Input:} an initial frame $\mathcal{T}^{(0)}$ obtained in Section~\ref{subsec:initialization}  \\
+\textbf{Output:} an optimized frame $\mathcal{T}$ with its design variables $(V_I,\mathbf{r})$ \\
+
+\begin{algorithmic}
+
+	\STATE \textbf{Step 1:} Get $(V^{(0)},\mathbf{r}^{(0)})$ from the initial frame,
+    obtain the eigenvector $\tilde{\mathbf{u}}^{(0)}$ corresponding to the minimal positive eigenvalue of $K(V^{(0)},\mathbf{r}^{(0)})$, 
+    %$=\arg\min\limits_{\mathbf{u}\in N(K)^{\perp}}Q(V^{(0)}, \mathbf{r}^{(0)}, \mathbf{u})$,
+    specify a threshold $\epsilon$, and let $k:=1$.
+
+    \STATE \textbf{Step 2:} Update $(V_I^{(k)},\mathbf{r}^{(k)})=\arg\max\limits_{(V_I,\mathbf{r})\in\Theta}Q(V, \mathbf{r}, \tilde{\mathbf{u}}^{(k-1)})$ by the interior-point algorithm~\cite[Chapter~19]{Nocedal:2006}.
+
+    \STATE \textbf{Step 3:} 
+    Compute the minimal positive eigenvalue of $K(V^{(k)},\mathbf{r}^{(k)})$ and its corresponding eigenvector $\tilde{\mathbf{u}}^{(k)}$.
+    %Solve the linear equality-constrained optimization
+    %$\tilde{\mathbf{u}}^{(k)}=\arg\min\limits_{\mathbf{u}\in N(K)^{\perp}}Q(V^{(k)}, \mathbf{r}^{(k)}, \mathbf{u})$ using Lagrange-Newton method.
+
+    %% Compute null subspace of $K$, $Null(K(V^{(k)},\mathbf{r}^{(k)}))$
+
+    \STATE \textbf{Step 4:} If $Q(V^{(k)},\mathbf{r}^{(k)},\tilde{\mathbf{u}}^{(k)})-Q(V^{(k-1)},\mathbf{r}^{(k-1)},\tilde{\mathbf{u}}^{(k-1)}) \leq \epsilon$,
+    then output $(V^{(k)},\mathbf{r}^{(k)})$ as optimized design variables for the final frame;
+    Otherwise, go back to \textbf{Step 2}.
+
+\end{algorithmic}
+\caption{Rayleigh-quotient based algorithm} \label{alg:Rayleigh-quotient-algorithm}
+\end{algorithm}
+
+
+
+
+When the optimized frame is generated from our Rayleigh-quotient based algorithm,
+we will then merge any pairs of nodes that are connected by a strut that is at the minimum allowable length.
+The struts with small radii can also be eliminated to simplify the structure by applying a sparse optimization described in~\cite{wang:2013}.
+After this topology-cleaning step, we will use the optimized frame to generate a solid structure $\mathcal{H}$ for 3D printing.
+
+
+
+
+
+
+\subsection{Postprocess}
+\label{subsec:post-processing}
+
+
+The ultimate goal of our approach is to generate an entity object $H$ inside the surface boundary $S$.
+For this purpose, we separate the optimized frame $\mathcal{T}$ into the boundary beam set $E_S$ and the interior beam set $E_I$, as discussed in Section~\ref{subsec:frame}. The beam sets $E_S$ and $E_I$ will guide the adaptive hollowing and interior structure generation, respectively.
+
+First, the radii of the surface beams are used to determined a thickness function as
+\[
+\zeta(\mathbf{p})= 2(w_1 \cdot r_{j_1} + w_2 \cdot r_{j_2} + w_3 \cdot r_{j_3}), \  \forall \mathbf{p}\in S,
+\]
+where $\{r_{j_1},r_{j_2},r_{j_3}\}$ are the radii of three surface beams from triangle $\triangle \mathbf{e}_{j_1}\mathbf{e}_{j_2}\mathbf{e}_{j_3}\subset E_S$ where the point $\mathbf{p}$ lies, and $\{w_1,w_2,w_3\}$ are its barycenter coordinates.
+%
+Let $\Omega\subset\mathbb{R}^3$ be the region bounded by the input surface mesh $S$.
+%
+Then the adaptive hollowed surface shell is defined as
+\begin{equation} \label{eq:adaptive-shell}
+H_S=\{\mathbf{q}\in\Omega \mid \|\mathbf{q}-\mathbf{p}\| \leqslant \zeta(\mathbf{p}), \ \forall\mathbf{p}\in S \},
+\end{equation}
+which can be considered as a piecewise linear interpolation of the surface beams $E_S$.
+%
+Similarly, the beams in $E_I$ are used to define the interior supportive structure as
+\begin{equation} \label{eq:interior-structure}
+H_I=\{\mathbf{q}\in\Omega \mid \mathrm{dist}(\mathbf{q}, \mathbf{e}_j) \leqslant r_j, \ \forall\mathbf{e}_j\in E_I \},
+\end{equation}
+where $\mathrm{dist}(\mathbf{q}, \mathbf{e}_j)$ is the geometric distance of point $\mathbf{q}$ to the line segment $\mathbf{e}_j$.
+%
+The whole solid structure $H$ can then be given as
+\[
+H = H_S \bigcup H_I.
+\]
+Finally, we apply the \emph{Extended Dual Contouring} (EDC) algorithm~\cite{cwang:2013} to extract the 2-manifold surface boundary of solid $H$.
+%
+As shown in Figure~\ref{fig:pipeline}(d), the generated solid structure with its boundary mesh is now ready for 3D printing.
+
+
+
+
+%As the ultimate goal here is to generate a solid structure $\mathcal{H}$ within the surface $S$, we seperate the generated frame $\mathcal{T}$ into surface beam set $E_1$ and interior beam set $E_2$ as discussed in section\ref{frame} and guide the adaptive hollwing and interior structure generation, respectivly. We first define the distance of a point to the surface $S$ as
+%\begin{equation} \label{eq:dist}
+%dist(\mathbf{p},S)=\inf_{\forall \mathbf{q} \in S} \parallel \mathbf{p-q} \parallel,
+%\end{equation}
+%and for adaptive hollowing, a depth $d_\mathbf{p}$ should be defined on point $\mathbf{p}$ on surface $S$ as well. The adaptive hollowed solid is then defined as:
+%\begin{equation} \label{eq:adaptive_hollowing}
+%\mathcal{H}_1=\{\mathbf{q} \ in \  S \mid \exists \mathbf{p} \  on \ S, d_{\mathbf{p}} \geqslant \parallel \mathbf{pq} \parallel\}.
+%\end{equation}
+%As the radius of frame beams in $E_1$ can help on determining the depth of a place on $S$, we set
+%\begin{equation} \label{eq:depth}
+%d_{\mathbf{p}}= 2\frac{r_1*d_1+r_2*d_2+r_3*d_3}{d_1+d_2+d_3},
+%\end{equation}
+%where $r_i$ is the radii of three closest beams in $E_1$ with distance of $d_i$. In other words, the depth of surface can be considered as an interpolation of three most close surface frame beams. Meanwhile, beams in $E_2$ are used to generate interior structure as
+%\begin{equation} \label{eq:interior_structure}
+%\mathcal{H}_2=\{\mathbf{q} \ in \  S \mid \exists \mathbf{e}_i \in E_2 , dist^*(\mathbf{q},\mathbf{e}_i)<r_i\}.
+%\end{equation}
+%where $dist^*$ is the distance between point and line segment.
+%
+%After adding cylinder-like structure guided by beams in $E_2$, the whole solid $\mathcal{H}$ can be defined as:
+%\begin{equation} \label{eq:solidgen}
+%\mathcal{H} = \mathcal{H}_1 \bigcup \mathcal{H}_2.
+%\end{equation}
+%Applying an extended dual contouring (DC) algorithm discribed in \cite{cwang:2013}, we generate solid with 2-manifold surface(both outside and inside) which is suitable for 3D printing.
+
+
+

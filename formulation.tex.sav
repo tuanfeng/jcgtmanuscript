@@ -1,0 +1,280 @@
+\section{Problem and Formulation}
+\label{sec:formulation}
+
+\paragraph{Problem}
+Assume the surface mesh $S$ of a to-be-fabricated object is given, our goal is to generate an entity structure $\mathcal{H}$ consisting of adaptive-hollowed shell and supportive interior within a certain amount of material such that the load-bearing performance of structure remains the best under any unprescribed environmental forces. In other words, we aim to optimize the worst deformation of $\mathcal{H}$ under any possible load distribution.
+
+
+
+\subsection{Frame structure}
+\label{subsec:frame}
+In the filed of fabrication engineering, an extensive attention has been paid to shape analysis and structural optimization [Crapo 1979; Crapo 1990; Rosenberg 1980; Haftka and Grandhi 1986].
+Many kinds of lightweight structures, including frame and honeycomb, have been developed to reduce weight and enforce strength~\cite{Kindinger:2001,wang:2013,buildtolast} during recent years.
+
+
+However, the vast majority of previous work focused on structural optimization and design under a given load environment like some specified forces.
+In real situation, an object might be handled or used in various possible ways, and specified forces cannot be exhaustive of all cases.
+As lacking of valid formulation for the above mentioned problem, traditional methods of structural optimization are unable to solve it efficiently.
+In this paper, the frame structure is proposed for not only being able to efficiently optimize but also formulating the adaptive hollowing and interior struts into a unified form.
+
+
+
+As shown in Figure~\ref{fig:frame-structure}\tuanfeng{a figure for frame structure}, a frame structure $\mathcal{T}$ consists of a set of frame \emph{nodes} $V=\{\mathbf{v}_{i}, i=1,2,\cdots,m\}$ which are sampled on $S$ and in the volume enclosed by $S$, and a set of frame \emph{struts} $E=\{\mathbf{e}_{j}, j=1,2,\cdots,n\}$ which are the edges connecting the nodes.
+%
+Each node represents a geometric position and each strut $\mathbf{e}_j \in E$ is a cylindrical shape with radius $r_j$ and length $l_j$.
+%
+Here $\mathcal{T}$ can be seen as a graph of $V$ and $E$ with the geometry defining node positions and strut radii, and the topology defining the connectivity between nodes.
+%
+For convenience, we also denote $V_1=\{\mathbf{v}_{i} \lvert \mathbf{v}_{i}\in S\}$, $V_2=V\setminus V_1$,
+$E_1=\{\mathbf{e}=(\mathbf{v}_{i_1},\mathbf{v}_{i_2})\in E \lvert \mathbf{v}_{i_1}\in V_1, \mathbf{v}_{i_2} \in V_1 \}$, and $E_2 = E\setminus E_1$.
+
+
+
+By taking adequate density of surface points, the appearance of frame $\mathcal{T}$ is expected to approximate $S$ within a certain geometric error.
+Surface edges of frame (i.e., $E_1$) indicate the adaptive thickness (doubled radius) of surface shell around the position of the edges.
+Interior edges of frame (i.e., $E_2$) are taken as cylinder-like supportive struts.
+And then the frame $\mathcal{T}$ can be considered as a reasonable approximation of the target entity object $\mathcal{H}$.
+%
+
+Different from element-based methods for structural topology optimization where problems are expressed by element-wise step functions,
+the approach presented in this paper uses node positions and strut radii as control variables in the structural optimization.
+%
+
+
+As being an effective discrete representation, the frame structure is fabrication-friendly and has simple mechanical properties which we will see in Section~\ref{subsec:mechanics}.
+
+
+\paragraph{Remark} When the optimization is finished, the optimized frame structure will guide on the solid generation. The interior structure is generated with a cylinder with the radii of an interior strut and the surface is adaptive hollowed with the depth equals to $\frac{2*(d_1*r_1+d_2*r_2+d_3*r_3)}{d_1+d_2+d_3}$, where $\{r_i,i=1,2,3\}$ is the radii of three most close strut with distance of $\{d_i,i=1,2,3\}$.
+
+
+
+\subsection{Mechanical properties and constraints}
+\label{subsec:mechanics}
+
+The mechanics of frame structure has been studied based on beam theory~\cite{Huges:1987,Gibson:1999} where frame struts are assumed to behave like simple beams under linear deformation.
+
+\paragraph{Stiffness}
+The stiffness equation of the frame can be derived by the finite element method.
+For a given frame structure, the relationship between the displacement of each node and the loads should satisfied the following discretized equilibrium equation
+\begin{equation} \label{eq:stiffness}
+\mathbf{K}(\mathbf{V},\mathbf{r}) \mathbf{D}=\mathbf{F},
+\end{equation}
+where $\mathbf{V}=(\mathbf{v}_1,\cdots,\mathbf{v}_m)$ denote geometric positions of the nodes,
+$\mathbf{K}(\mathbf{V},\mathbf{r})$ is the stiffness matrix depending on nodal positions $\mathbf{V}$ and strut radii $\mathbf{r}=(r_1,\cdots,r_n)$, $\mathbf{F}=(\mathbf{f}_1,\cdots,\mathbf{f}_m)^T$ are the forces acting on the nodes,
+and $\mathbf{D}=(\mathbf{d}_1,\cdots,\mathbf{d}_m)^T$ are the deformation displacements of the nodes caused by $\mathbf{F}$.
+%
+%$\mathbf{K}(\mathbf{V},\mathbf{r})$ is called stiffness matrix and is determined by the frame's structure and the radii of each struts.\par
+
+
+
+
+The relationship between the given forces $\mathbf{F}$ and resulted deformation can be described in Stiffness Matrix $\mathbf{K}$. The forces on strut $\mathbf{e}_j$ which is connected to $\mathbf{v}_i$ are donated as $\mathbf{f}^*_j$ which can be calcuated as $\mathbf{f}^*_j=\mathbf{d}_{\mathbf{e}_{j}^{\parallel}} \gamma+\mathbf{d}_{\mathbf{e}_{j}^{\perp}}\mu$ due to the elastic properties of beam structure, where $\gamma$ and $\mu$ are tensile modulus and shear modulus respectively and $\mathbf{d}_{\mathbf{e}_{j}^{\parallel}}$ and $\mathbf{d}_{\mathbf{e}_{j}^{\perp}}$ are the decomposition components of the strut's deformation $\mathbf{d}_{\mathbf{e}_j}$ along $\mathbf{e}_j$ and its orthogonal direction wich can be also written as $\mathbf{d}_{\mathbf{e}_j^{\parallel}}=\frac{\mathbf{e}^{T}\mathbf{d}_{\mathbf{e}_j}}{\|\mathbf{e}\|^2}\mathbf{e}_j$ and
+$\mathbf{d}_{\mathbf{e}_j^{\perp}}=\mathbf{d}_{\mathbf{e}_j}-\mathbf{d}_{\mathbf{e}_j^{\parallel}}$ respectively. We narrow the discussion to static problem by considering forces from struts connected to a node $\mathbf{v}_i$ is balanced finally after the given loads are acted. Therefore, we have
+\begin{equation}
+\label{eq:stiff_1}
+\sum\limits_{\mathbf{e}_j \ connected\ to\ \mathbf{v}_i} - \mathbf{f}^*_j = \mathbf{f}_i
+\end{equation}
+for each node $\mathbf{v}_i$ as the forces generated in each struts should act against the given forces to achieve the balance. As $\mathbf{f}^*_j$ is a linear function of $\mathbf{D}$, the equations \eqref{eq:stiff_1} for each node can be writen together in matrix form as
+\begin{equation} \label{eq:stiffness}
+\mathbf{K}(\mathbf{V},\mathbf{r}) \mathbf{D}=\mathbf{F}
+\end{equation}
+
+
+
+
+In considering a frame structure under any unprescribed loads (acting on nodes) with no anchor,
+some constraints should be added to exclude the deformation displacement field of no real physical meaning, like rigid-motion displacements,
+which we will see in Section~\ref{subsec:almighty-opt}.
+
+%%This paragraph will be removed or appear in the supplemental material if needed. %%
+%\paragraph{Load distribution}
+%As consider the situation of routine handling for a printed object, the external and internal loads $\mathbf{F}$ should be limited. However, the specific value of the upper bound is not important for the goal here which is to optimize the structure within limited material cost. As a result, without losing the generality, we normlize the force vector as:
+%\begin{equation} \label{eq:force_normlize}
+%\parallel\mathbf{F}\parallel_{2}=1
+%\end{equation}
+%In order to eliminate the rigid global motion(torque and translation) for such a static problem. a zero total force and zero total torque constraints should be satisfied, which can be written as:
+%\begin{equation} \label{eq:force_motion_torque}
+%\parallel\mathbf{F}\parallel_{1}=0,\ \parallel\mathbf{V}\times\mathbf{F}\parallel_{1}=0
+%\end{equation}
+%Rigid motion can be also constrained by deformation so the above equation can also be written in the view of deformation as:
+%\begin{equation} \label{eq:deformation}
+%\parallel\mathbf{D}\parallel_{1}=0 \  \mathrm{and} \  \parallel\mathbf{V}\times\mathbf{D}\parallel_{1}=0
+%\end{equation}
+
+
+
+\paragraph{Range of strut radius}
+%\paragraph{Buckling}
+%To validate the linear elastic properity of frame, the ratio between the length and the radii of a strut should be constrained, which is known as Euler buckling and can be written as:
+%\begin{equation} \label{eq:buckling}
+%r_i \geqslant l_i / \alpha, \ \ \mathbf{e}_i \in E
+%\end{equation}
+%If the position of nodes are fixed, the buckling constrain can be considered as a lower buond of the radii of each strut.
+%
+In order not to fail the linear elastic property of frame structure,
+the ratio between length and radius of a strut must satisfy Euler buckling constraint
+\begin{equation} \label{eq:buckling}
+r_j \geqslant l_j / \alpha, \quad  \mathbf{e}_j \in E
+\end{equation}
+where $\alpha$ is the slenderness ratio.
+If the positions of nodes are fixed, the buckling constrain can be considered as a lower bound of the radius for each strut.
+
+
+%\paragraph{Printability}
+To make the frame structure printable, the radius of each strut should be no less than the minimum printable radius $\underline{r}$.
+To avoid unrealistic design, we also set an upper bound $\overline{r}$ for each strut radius, i.e.,
+\begin{equation} \label{eq:printability}
+\underline{r}\leqslant {r}_j \leqslant \overline{r}, \quad  \mathbf{e}_j\in E.
+\end{equation}
+%
+%Note that both the buckling constraint and the printability constraint are imposed on the range of radius vector $\mathbf{r}$. For simplicity, we rewrite the constraint \eqref{eq:buckling} and \eqref{eq:printability} together as:
+%\begin{equation} \label{eq:lower_upper_r}
+%{r}_{j,lower} \leqslant {r}_j \leqslant {r}_{j,upper}, \quad \ \mathbf{e}_j\in E.
+%\end{equation}
+%where ${r}_{j,lower} = maximal(\underline{\eta},l_i / \alpha)$ and ${r}_{j,upper} = \overline{\eta}$.
+%
+For simplicity, the buckling~\eqref{eq:buckling} and the printability~\eqref{eq:printability} can be integrated into a range constraint of radius for each strut
+\begin{equation} \label{eq:range}
+\underline{\eta}_j \leqslant {r}_j \leqslant \overline{r}, \quad  \mathbf{e}_j\in E.
+\end{equation}
+where $\underline{\eta}_j=\max(l_j/\alpha, \underline{r})$.
+
+
+\paragraph{Volume}
+%
+The proposed problem is defined as optimizing the frame structure when a certain amount of material is given.
+%
+Let $\overline{\Omega}$ be the amount of material available.
+%Denote $\Omega$ the volume of solid material in designed structure $\mathcal{H}$.
+The volume of solid material in designed structure $\mathcal{H}$ consists of two parts:
+the volume of interior struts in the frame, and the volume of adaptive-hollowed shell which can be approximately calculated as
+the sum of the product of the area covered by a surface strut and its doubled radius.
+%
+Thus we have a constraint on the material volume
+\begin{equation} \label{eq:volume}
+\sum_{\mathbf{e}_j\in E_2} \pi {r_j}^2 l_j + \sum_{\mathbf{e}_j\in E_1} 2 r_j a_j  \leqslant \overline{\Omega},
+\end{equation}
+where $a_j$ is the area covered by strut $\mathbf{e}_j$ on the surface.
+In practice, $a_j$ is roughly calculated as the shaded area shown in Figure~\ref{fig:covered-area}.
+\zhouwang{A figure is needed here for depict the area covered by a surface strut.}
+
+
+%Overall, it's obvious that the most important constraint for the proposed problem is the total material cost, namely the volume upper bound $\overline{\Omega}$ of the solid $\mathcal{H}$.
+%The volume of the solid consists of two parts: volume of interior structure, which is the same as the volume of interior struts of the frame, and the volume of adaptive-hollowed surface solid which can be approximately calculated as the sum of product of the area covered by a surface strframe edge 'covers' and doubled radii of the edge.\tuanfeng{figure}
+%\begin{equation} \label{eq:volume}
+%\sum_{\mathbf{e}_j\in E_1} \pi {r_i}^2 l_i + \sum_{\mathbf{e}_j\in E_2} 2r_i S_i  \leqslant \widetilde{\mathrm{Vol}}
+%\end{equation}
+%$S_i$ is the area which $i$th edge is coverd on the surface. In practice, we approximate $S_i$ with  $1/3$ of the are of the two triangles $\mathbf{e}_{i}$ attached.
+
+\paragraph{Other constraints}
+To show the flexibility of our optimization algorithm, some optional constraints can be added as well. For example, balance, ...
+%
+%\begin{itemize}
+%\item \textbf{Balance} For some standing objects, the center of mass of the output solid should be projected into the base of support\cite{prevost:2013}, which is easy to impose on the frame approximation with the same math form.
+%\item \textbf{...}
+%\end{itemize}
+
+
+\subsection{Almighty structural optimization}
+\label{subsec:almighty-opt}
+
+The problem at hand is defined as finding an almighty frame structure which has the maximum global stiffness
+under any unprescribed loads when a certain amount of material is given.
+%
+A frame structure with maximum global stiffness provides a minimum mean compliance for the worst-case (most-damaged) loads.
+%A frame structure with maximum global stiffness provides a minimum for the external work with the real displacement field or minimum mean compliance.
+%
+Since minimization of mean compliance is equivalent to the maximization of the total potential energy,
+the almighty structural optimization problem can be constructed as follows
+%(Hassani and Hinton 1999; Bendsoe and Sigmund 2003)%
+\begin{equation} \label{eq:potential-energy-max}
+\begin{array}{cl}
+\max\limits_{\mathbf{V}, \mathbf{r}} &
+\left\{\begin{array}{cl}
+\min\limits_{\mathbf{D}} & \mathbf{D}^T \mathbf{K}(\mathbf{V},\mathbf{r})\mathbf{D} \\
+\mathrm{s.t.} & \|\mathbf{D}\|_2=1, \sum\limits_{i=1}^m \mathbf{d}_i =\mathbf{0},\sum\limits_{i=1}^m \mathbf{v}_i\times\mathbf{d}_i =\mathbf{0}
+\end{array}\right\} \\
+\mathrm{s.t.} & \Big\{ \eqref{eq:range}, \ \eqref{eq:volume}\Big\}
+\end{array}
+\end{equation}
+where $\mathbf{D}$ is the real displacement field, $\mathbf{D}^T \mathbf{K}(\mathbf{V},\mathbf{r})\mathbf{D}$ is total potential energy,
+and $\{\mathbf{V}, \mathbf{r}\}$ are design variables in the frame structure.
+%
+Note that minimization of the total potential energy in~\eqref{eq:potential-energy-max} according to constrained $\mathbf{D}$
+is equivalent to satisfying the state equilibrium.
+%
+In the almighty structural optimization, the goal can be thought of as determination of optimal design variables
+to achieve the best load-bearing performance under any possible deformation.
+
+
+
+In fact, the stiffness matrix $\mathbf{K}(\mathbf{V},\mathbf{r})$ is positive-semidefinite.
+The optimization of~\eqref{eq:potential-energy-max} can be reformulated as to maximizing the minimum non-zero eigenvalue of stiffness matrix, i.e.,
+\begin{equation}
+\label{eq:max-min-eigenvalue}
+\begin{array}{cl}
+\max\limits_{\mathbf{V}, \mathbf{r}} & \lambda_{\min}^{*}(\mathbf{K}(\mathbf{V},\mathbf{r})) \\
+\mathrm{s.t.} & \big\{ \eqref{eq:range}, \ \eqref{eq:volume}\big\}
+\end{array}
+\end{equation}
+where $\lambda_{\min}^{*}(\mathbf{K}(\mathbf{V},\mathbf{r}))$ represents the minimum non-zero eigenvalue of $\mathbf{K}(\mathbf{V},\mathbf{r})$.
+%
+Note that the constraints of deformation displacement field $\mathbf{D}$ have been implicitly passed on to the minimum non-zero eigenvalue of stiffness matrix.
+
+
+
+%
+%
+%To achieve a best load-bearing performance under any unprescribed loads, we thereby aim to optimize the worst case which means minimize the compliance under the probably-most-damaged loads. The compliance of frame is defined as the work done by forces act on nodes. For it's a static problem, the work is done whenever the forces move by the nodes' deformation. The optimization problem can be formulated as:
+%\begin{equation}
+%\label{eq:compliance}
+%\begin{array}{rl}
+%\arg\min\limits_{\mathbf{r,V_2}} \max\limits_{\mathbf{F,D}} & \mathbf{D}^{\mathbf{T}}\mathbf{F} \\
+%\mathrm{s.t.} & \mathbf{K}(\mathbf{V},\mathbf{r}) \mathbf{D}=\mathbf{F} \\
+%& \parallel\mathbf{F}\parallel_{2}=1\\
+%& \parallel\mathbf{F}\parallel_{1}=0,\ \parallel\mathbf{V}\times\mathbf{F}\parallel_{1}=0\\
+%& \eqref{eq:lower_upper_r},\eqref{eq:volume}
+%\end{array}
+%\end{equation}\par
+%Accroding to the stiffness equation\eqref{eq:stiffness}, the force can be determined by the frame structure and the nodes' deformation. As a result, the object function of \eqref{eq:compliance} can be rewrited as:
+%\begin{equation*}
+%\label{eq:compliance_KD}
+%\begin{array}{rl}
+%\arg\min\limits_{\mathbf{r,V_2}} \max\limits_{\mathbf{F,D}} & \mathbf{D}^{\mathbf{T}}\mathbf{K}(\mathbf{V},\mathbf{r})\mathbf{D} \\
+%\end{array}
+%\end{equation*}
+%We also rewrtie the constriants of \eqref{eq:compliance} to eliminate $\mathbf{F}$. Consider that $\mathbf{F}$ and $\mathbf{D}$ are dual, maximize the compliance with limited forces is equal to minimize the compliance with limited deformation. The optimization problem then can be redesigned as:
+%\begin{equation}
+%\label{eq:compliance_D}
+%\begin{array}{rl}
+%\arg\max\limits_{\mathbf{r,V_2}} \min\limits_{\mathbf{D}} & \mathbf{D}^{\mathbf{T}}\mathbf{K}(\mathbf{V},\mathbf{r})\mathbf{D} \\
+%\mathrm{s.t.} & \parallel\mathbf{D}\parallel_{2}=1\\
+%& \parallel\mathbf{D}\parallel_{1}=0,\ \parallel\mathbf{V}\times\mathbf{D}\parallel_{1}=0\\
+%& \eqref{eq:lower_upper_r},\eqref{eq:volume}
+%\end{array}
+%\end{equation}\par
+%
+%For stiffness matrix $\mathbf{K}(\mathbf{V},\mathbf{r})$ is symmetric positive semidefinited. $\mathbf{K}(\mathbf{V},\mathbf{r}) = \mathbf{Q}^{\mathbf{T}}\Lambda\mathbf{Q}$ where $\mathbf{Q}$ is positive definite matrix and $\Lambda$ is diagonal matrix with, and only with, 3 zero diagonal elements. Thereby, we have:
+%\begin{equation*}
+%\mathbf{D}^{\mathbf{T}}\mathbf{K}(\mathbf{V},\mathbf{r})\mathbf{D}=\mathbf{D}^{\mathbf{T}}\mathbf{Q}^{\mathbf{T}}\Lambda\mathbf{Q}\mathbf{D}
+%\end{equation*}
+%Since $\mathbf{Q}$ is positive definited, the optimization problem can be rewrited as:
+%\begin{equation}
+%\label{eq:compliance_d}
+%\begin{array}{rl}
+%\arg\max\limits_{\mathbf{r,V_2}} \min\limits_{\mathbf{D}} & \sum {\lambda_i}{d_i}^2 \\
+%\mathrm{s.t.} & \parallel\mathbf{D}\parallel_{2}=1\\
+%& \parallel\mathbf{D}\parallel_{1}=0,\ \parallel\mathbf{V}\times\mathbf{D}\parallel_{1}=0\\
+%& \eqref{eq:lower_upper_r},\eqref{eq:volume}
+%\end{array}
+%\end{equation}
+%where $\lambda_i$ is the $i$th diagonal element of $\Lambda$. Note that $\lambda_i$ is also the eigenvalue of $\mathbf{K}(\mathbf{V},\mathbf{r})$ and $\min\limits_{\mathbf{D}}\sum {\lambda_i}{d_i}^2$ with constriant $\parallel\mathbf{D}\parallel_{2}=1$ plays the role of selecting $\lambda_i$ with minimul value. In fact, the selected $\lambda_i$ should not be zero for there is another constraint \eqref{eq:deformation}. To sum up, the worst-case compliance optimization can then be formulated to a maximize minimul eigenvalue problem written as:
+%\begin{equation}
+%\label{eq:eigenvalue}
+%\begin{array}{rl}
+%\arg\max\limits_{\mathbf{r,V_2}} & {\lambda^{*}}_{\mathbf{min}}(\mathbf{K}(\mathbf{V},\mathbf{r}))\\
+%\mathrm{s.t.} & \eqref{eq:lower_upper_r},\eqref{eq:volume}
+%\end{array}
+%\end{equation}
+%The constriants on deformation have been transfered into ${\lambda^{*}}_{\mathbf{min}}$, where ${\lambda^{*}}_{\mathbf{min}}$ represents the minimul non-zero eigenvalue.
+

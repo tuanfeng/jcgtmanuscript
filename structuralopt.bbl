@@ -1,0 +1,151 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{\uppercase{BWBSH14}}
+
+\bibitem[BBO{\etalchar{*}}10]{Bickel:2010}
+\textsc{Bickel B., B{\"{a}}cher M., Otaduy M.~A., Lee H.~R., Pfister H., Gross
+  M., Matusik W.}:
+\newblock Design and fabrication of materials with desired deformation
+  behavior.
+\newblock \emph{ACM Trans. on Graphics (Proc. SIGGRAPH) 29}, 3 (2010).
+
+\bibitem[BS03]{bendsoe:2003}
+\textsc{Bendsoe M.~P., Sigmund O.}:
+\newblock \emph{Topology optimization: theory, methods and applications}.
+\newblock Springer, 2003.
+
+\bibitem[BWBSH14]{bacher2014spin}
+\textsc{B{\"a}cher M., Whiting E., Bickel B., Sorkine-Hornung O.}:
+\newblock Spin-it: optimizing moment of inertia for spinnable objects.
+\newblock \emph{ACM Transactions on Graphics (TOG) 33}, 4 (2014), 96.
+
+\bibitem[CBRR91]{chandrupatla1991introduction}
+\textsc{Chandrupatla T.~R., Belegundu A.~D., Ramesh T., Ray C.}:
+\newblock \emph{Introduction to finite elements in engineering}.
+\newblock Prentice-Hall Englewood Cliffs, NJ, 1991.
+
+\bibitem[CC{\etalchar{*}}98]{cherkaev1998stable}
+\textsc{Cherkaev A., Cherkaeva E., et~al.}:
+\newblock Stable optimal design for uncertain loading conditions, 1998.
+
+\bibitem[CC04]{cherkaev2004principal}
+\textsc{Cherkaev E., Cherkaev A.}:
+\newblock Principal compliance and robust optimal design.
+\newblock In \emph{The Rational Spirit in Modern Continuum Mechanics}.
+  Springer, 2004, pp.~169--196.
+
+\bibitem[Che07]{Chen:2007}
+\textsc{Chen Y.}:
+\newblock {3D texture mapping for rapid manufacturing}.
+\newblock \emph{Computer-Aided Design and Applications 4}, 6 (2007), 761--771.
+
+\bibitem[GA99]{Gibson:1999}
+\textsc{Gibson L.~J., Ashby M.~F.}:
+\newblock \emph{Cellular Solids: Structure and Properties}, 2nd~ed.
+\newblock Cambridge University Press, 1999.
+
+\bibitem[Hug87]{Huges:1987}
+\textsc{Hughes T. J.~R.}:
+\newblock \emph{The Finite Element Method: Linear Static and Dynamic Finite
+  Element Analysis}.
+\newblock Prentice-Hall, 1987.
+
+\bibitem[LBRM12]{luo2012chopper}
+\textsc{Luo L., Baran I., Rusinkiewicz S., Matusik W.}:
+\newblock Chopper: partitioning models into 3d-printable parts.
+\newblock \emph{ACM Trans. Graph. 31}, 6 (2012), 129.
+
+\bibitem[LSZ{\etalchar{*}}14]{Lu:2014}
+\textsc{Lu L., Sharf A., Zhao H., Wei Y., Fan Q., Chen X., Savoye Y., Tu C.,
+  Cohen-Or D., Chen B.}:
+\newblock Build-to-last: Strength to weight 3d printed objects.
+\newblock \emph{ACM Trans. Graph. (Proc. SIGGRAPH) 33}, 4 (August 2014),
+  97:1--97:10.
+
+\bibitem[LWH12]{DOLFIN}
+\textsc{Logg A., Wells G.~N., Hake J.}:
+\newblock \emph{DOLFIN: a C++/Python Finite Element Library}.
+\newblock Springer, 2012.
+
+\bibitem[NW06]{Nocedal:2006}
+\textsc{Nocedal J., Wright S.}:
+\newblock \emph{Numerical Optimization}, 2nd~ed.
+\newblock Springer, 2006.
+
+\bibitem[Par98]{Parlett:1998}
+\textsc{Parlett B.~N.}:
+\newblock \emph{The Symmetric Eigenvalue Problem}.
+\newblock Prentice-Hall, Inc., 1998.
+
+\bibitem[PWLSH13]{prevost:2013}
+\textsc{Prevost R., Whiting E., Lefebvre S., Sorkine-Hornung O.}:
+\newblock Make it stand: balancing shapes for 3{D} fabrication.
+\newblock \emph{ACM Transactions on Graphics (TOG) 32}, 4 (2013), 81.
+
+\bibitem[Roz89]{rozvany:1989}
+\textsc{Rozvany G.~I.}:
+\newblock \emph{Structural design via optimality criteria}.
+\newblock Springer, 1989.
+
+\bibitem[Roz09]{rozvany:2009}
+\textsc{Rozvany G.~I.}:
+\newblock A critical review of established methods of structural topology
+  optimization.
+\newblock \emph{Structural and Multidisciplinary Optimization 37}, 3 (2009),
+  217--237.
+
+\bibitem[SHOW02]{Smith:2002}
+\textsc{Smith J., Hodgins J., Oppenheim I., Witkin A.}:
+\newblock Creating models of truss structures with optimization.
+\newblock \emph{ACM Trans. Graph. (Proc. SIGGRAPH) 21}, 3 (2002), 295--301.
+
+\bibitem[SVB{\etalchar{*}}12]{stava:2012}
+\textsc{Stava O., Vanek J., Benes B., Carr N., M{\v{e}}ch R.}:
+\newblock Stress relief: improving structural strength of 3{D} printable
+  objects.
+\newblock \emph{ACM Transactions on Graphics (TOG) 31}, 4 (2012), 48.
+
+\bibitem[TNKK11]{takezawa2011topology}
+\textsc{Takezawa A., Nii S., Kitamura M., Kogiso N.}:
+\newblock Topology optimization for worst load conditions based on the
+  eigenvalue analysis of an aggregated linear system.
+\newblock \emph{Computer Methods in Applied Mechanics and Engineering 200}, 25
+  (2011), 2268--2281.
+
+\bibitem[WC13]{cwang:2013}
+\textsc{Wang C.~C., Chen Y.}:
+\newblock Thickening freeform surfaces for solid fabrication.
+\newblock \emph{Rapid Prototyping Journal 19}, 6 (2013), 395--406.
+
+\bibitem[WCR05]{wang:2005}
+\textsc{Wang H., Chen Y., Rosen D.~W.}:
+\newblock A hybrid geometric modeling method for large scale conformal cellular
+  structures.
+\newblock In \emph{ASME 2005 International Design Engineering Technical
+  Conferences and Computers and Information in Engineering Conference} (2005),
+  American Society of Mechanical Engineers, pp.~421--427.
+
+\bibitem[WWY{\etalchar{*}}13]{wang:2013}
+\textsc{Wang W., Wang T.~Y., Yang Z., Liu L., Tong X., Tong W., Deng J., Chen
+  F., Liu X.}:
+\newblock Cost-effective printing of 3d objects with skin-frame structures.
+\newblock \emph{ACM Transactions on Graphics (TOG) 32}, 6 (2013), 177.
+
+\bibitem[YLL{\etalchar{*}}09]{yan2009isotropic}
+\textsc{Yan D.-M., L{\'e}vy B., Liu Y., Sun F., Wang W.}:
+\newblock Isotropic remeshing with fast and exact computation of restricted
+  voronoi diagram.
+\newblock In \emph{Computer Graphics Forum} (2009), Wiley Online Library,
+  pp.~1445--1454.
+
+\bibitem[YWLL10]{Yan:2010}
+\textsc{Yan D.-M., Wang W., L\`evy B., Liu Y.}:
+\newblock Efficient computation of {3D} clipped {V}oronoi diagram.
+\newblock In \emph{6th International Conference on Geometric Modeling and
+  Processing (GMP 2010)} (2010), pp.~269--282.
+
+\bibitem[ZPZ13]{zhou:2013}
+\textsc{Zhou Q., Panetta J., Zorin D.}:
+\newblock Worst-case structural analysis.
+\newblock \emph{ACM Transactions on Graphics (TOG) 32}, 4 (2013), 137.
+
+\end{thebibliography}

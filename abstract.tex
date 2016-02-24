@@ -1,0 +1,37 @@
+
+%% Abstract
+
+%In this paper, we address the problem of designing a global stiffness structure for an object with a certain amount of the given material for 3D printing.
+%%
+%We propose a novel solution for the structural optimization problem that computes an optimal structure for all kinds of force distribution.
+%Specifically, we use the eigen-mode analysis that maximizes the minimal positive eigenvalue of the stiffness matrix by varying the design variables of the frame structure.
+%%
+%Furthermore, we present a Rayleigh-quotient based algorithm for accelerating the structural optimization.
+%%
+%Our approach provides a solution for formulating the adaptive hollowing and the interior supportive structure in a unifed form and optimizing them simultaneously.
+%%
+%The validity, the rationality and the applicability of our solution are verified by the finite element method analysis and by the mechanical test of printed objects.
+%%
+%Our approach obtains the global stiffness structures and is shown to be more practical than the state-of-the-art approaches.
+
+%%%%%%%%%%%%%%%%%%%%
+The importance of the stiffness of a 3D printed object has been realized gradually nowadays. Unlike industry product using \textit{stiff-but-weak} materials such as metal, cement, etc. using stress as criterion is not suitable when considering the problem of 3D printing as materials used here (ABS, Nylon, resin, etc.) is rather elastic \textendash \  which is the case of \textit{flexible-but-strong}. 3D printed objects are always hollowed with interior structure to make the fabrication process cost-effective while maintain the stiffness. State-of-the-art techniques are either \textit{redundant design} (using an amount of materials much more than necessary to ensure the stiffness in any case) or optimizing the structure under one of the most-possible loads distributions which fall short in other distribution cases. We propose a novel approach for designing the interior of the object by optimizing the global stiffness \textendash \  minimizing the maximum deformation under any possible load distribution. We first simulate the object by a lightweight frame structure and optimize both the size and the geometry using an eigen-mode-like formulation, interleaving with a topology clean. A postprocess is applied to generate the final object based on the optimized frame structure. Optimizing the interior structure under unknown loads automatically keeps reinforce where the structure is the weakest and is proved to be a powerful and more reasonable design framework in our experimental results.
+
+%In this paper, we address the problem of designing a frame structure with optimized stiffness distribution for the 3D printing objects.
+%We propose a novel solution to the structural optimization problem that provides minimal deformation of the frame structure under various distributions of force.
+%
+%Such a solution is obtained in two steps.
+%First, we perform an eigen-mode analysis to find the greatest deformation for all normalized distribution of force, which is related to the calculation of the minimal positive eigenvalue of the stiffness matrix.
+%First, we perform an eigen-mode analysis to find the region at which the object undergoes the greatest deformation under a normalized distribution of force.
+%This result enables us to calculate the minimal positive eigen-value of the stiffness matrix.
+%Second, we vary the the design variables of the frame structure to minimize the deformation.
+%In this step, a Rayleigh-quotient based algorithm is proposed to accelerate the structural optimization.
+%
+%The validity and the rationality of our solution are verified by the finite element method analysis and by the mechanical simulation of printed objects.
+%Our approach can obtain the global stiffness in structures and is shown to be more applicable than state-of-the-art methods.
+
+
+
+%In this paper, we address the problem of designing a frame structure with optimized stiffness distribution for the 3D printing objects. We propose a novel solution to the structural optimization problem that provides minimal deformation of the frame structure under various distributions of force. Such a solution is obtained in two steps. First, we perform an eigen-mode analysis to find the region at which the object undergoes the greatest deformation under a normalized distribution of force. This result enables us to calculate the minimal positive eigen-value of the stiffness matrix. Second, we vary the the design variables of the frame structure to minimize the deformation. In this step, a Rayleigh-quotient based algorithm is proposed to accelerate the structural optimization.
+%The validity and the rationality of our solution are verified by the finite element method analysis and by the mechanical simulation of printed objects.
+%Our approach can obtain the global stiffness in structures and is shown to be more applicable than state-of-the-art methods.
